@@ -52,7 +52,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mMapView = (MapView)view.findViewById(R.id.map);
+        mMapView = (MapView)view.findViewById(R.id.view_map);
         if(mMapView != null) {
             mMapView.onCreate(null);
             mMapView.onResume();

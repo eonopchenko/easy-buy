@@ -5,12 +5,12 @@
     android:orientation="horizontal"
     android:background="@color/colorLightgraySVG">
     <CheckBox
-        android:id="@+id/cbRowProduct"
+        android:id="@+id/check_row_product"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
     </CheckBox>
     <LinearLayout
-        android:id="@+id/llRowProduct"
+        android:id="@+id/layout_row_product"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_marginStart="5dp"
@@ -18,7 +18,7 @@
         android:layout_weight="1"
         android:orientation="vertical">
         <TextView
-            android:id="@+id/tvRowProduct"
+            android:id="@+id/text_row_product"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
@@ -26,7 +26,7 @@
             android:textSize="16sp">
         </TextView>
         <TextView
-            android:id="@+id/tvRowCount"
+            android:id="@+id/text_row_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
@@ -36,7 +36,7 @@
         </TextView>
     </LinearLayout>
     <ImageView
-        android:id="@+id/ivRowProduct"
+        android:id="@+id/image_row_product"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@mipmap/ic_launcher">
