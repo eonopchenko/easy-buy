@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="colorGuacamole">#a6d785</color>
+    <color name="colorMintIceCream">#c5e3bf</color>
+    <color name="colorMoon">#dbe6e0</color>
+    <color name="colorMintCreamSVG">#f5fffa</color>
+    <color name="colorDarkgraySVG">#a9a9a9</color>
+    <color name="colorLightgraySVG">#d3d3d3</color>
+</resources>
