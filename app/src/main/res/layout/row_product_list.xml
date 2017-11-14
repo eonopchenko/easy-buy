@@ -16,15 +16,24 @@
         android:layout_marginStart="5dp"
         android:layout_marginLeft="5dp"
         android:layout_weight="1"
-        android:orientation="vertical">
+        android:orientation="horizontal">
+
         <TextView
             android:id="@+id/text_row_product"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:text=""
-            android:textSize="16sp">
-        </TextView>
+            android:textSize="16sp"
+            android:layout_weight="1"></TextView>
+
+        <TextView
+            android:id="@+id/text_row_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text=""
+            android:textSize="16sp"></TextView>
     </LinearLayout>
     <ImageView
         android:id="@+id/image_row_product"
