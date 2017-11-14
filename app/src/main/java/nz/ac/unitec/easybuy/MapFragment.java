@@ -10,17 +10,21 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by eugene on 1/11/2017.
  */
 
-public class MapFragment extends Fragment implements OnMapReadyCallback {
+public class MapFragment extends Fragment implements OnMapReadyCallback, ProductItemAvailableListener {
 
     private static final int ACTIVITY_START_CAMERA_APP = 0;
     private GoogleMap mGoogleMap;
@@ -70,5 +74,20 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mGoogleMap = googleMap;
         mGoogleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         mGoogleMap.setPadding(0, 0, 0, 140);
+    }
+
+    @Override
+    public void onProductItemAvailable(List<ProductItem> products) {
+        List<ProductListItem> filter = new ArrayList<ProductListItem>();
+
+        for(ProductItem product : products) {
+            filter.add(new ProductListItem(product.getName(), R.mipmap.ic_launcher));
+        }
+
+        ProductItemAdapter adapter = new ProductItemAdapter(getActivity(), (ArrayList<ProductListItem>) filter);
+        ListView lvProducts = (ListView) mView.findViewById(R.id.list_products);
+        lvProducts.setAdapter(adapter);
+
+        mView.findViewById(R.id.progress_bar).setVisibility(View.INVISIBLE);
     }
 }
