@@ -105,15 +105,17 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Product
 
         for(ProductItem product : products) {
 
+            String id = product.getId();
+            String name = product.getName();
+            float price = product.getPrice();
             float lat = product.getLat();
             float lng = product.getLng();
-            String name = product.getName();
 
             product.setMarker(mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(lat, lng)).title(name).snippet(lat + ", " + lng)));
             CameraPosition camPos = CameraPosition.builder().target(new LatLng(lat, lng)).zoom(16).bearing(0).tilt(45).build();
             mGoogleMap.moveCamera(CameraUpdateFactory.newCameraPosition(camPos));
 
-            filter.add(new ProductListItem(product.getId(), product.getName(), product.getPrice(), R.mipmap.ic_launcher));
+            filter.add(new ProductListItem(id, name, price, R.mipmap.ic_launcher));
         }
 
         ProductItemAdapter adapter = new ProductItemAdapter(getActivity(), (ArrayList<ProductListItem>) filter);

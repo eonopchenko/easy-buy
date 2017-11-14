@@ -97,7 +97,7 @@ class ProductItemClient {
     /**
      * Refresh the list with the items in the Table
      */
-    private void refreshItemsFromTable() {
+    public void refreshItemsFromTable() {
 
         // Get the items that weren't marked as completed and add them in the adapter
         AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>(){
@@ -214,5 +214,9 @@ class ProductItemClient {
 
             return resultFuture;
         }
+    }
+
+    public ProductItem addItemToMobileServiceTable(ProductItem item) throws ExecutionException, InterruptedException {
+        return mProductItemTable.insert(item).get();
     }
 }
