@@ -111,6 +111,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Product
         for(ProductItem product : products) {
 
             String id = product.getId();
+            String barcode = product.getBarcode();
             String name = product.getName();
             float price = product.getPrice();
             Date date = product.getDate();
@@ -121,7 +122,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Product
             CameraPosition camPos = CameraPosition.builder().target(new LatLng(lat, lng)).zoom(16).bearing(0).tilt(45).build();
             mGoogleMap.moveCamera(CameraUpdateFactory.newCameraPosition(camPos));
 
-            filter.add(new ProductListItem(id, name, price, date, R.mipmap.cart_icon));
+            filter.add(new ProductListItem(id, barcode, name, price, date, R.mipmap.cart_icon));
         }
 
         final ProductItemAdapter adapter = new ProductItemAdapter(getActivity(), (ArrayList<ProductListItem>) filter);

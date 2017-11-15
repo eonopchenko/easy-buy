@@ -8,7 +8,12 @@
     <CheckBox
         android:id="@+id/check_row_product"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginEnd="5dp">
     </CheckBox>
 
     <TextView
@@ -36,22 +41,35 @@
         android:text=""
         android:textSize="16sp"></TextView>
 
-    <TextView
-        android:id="@+id/text_row_date"
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginRight="5dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
         android:layout_marginEnd="5dp"
-        android:text=""
-        android:textSize="12sp"></TextView>
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp">
+
+        <TextView
+            android:id="@+id/text_row_barcode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="12sp"></TextView>
+
+        <TextView
+            android:id="@+id/text_row_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="12sp"></TextView>
+    </LinearLayout>
 
     <ImageView
         android:id="@+id/image_row_product"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:layout_marginTop="5dp"
         android:layout_marginLeft="5dp"
         android:layout_marginStart="5dp"

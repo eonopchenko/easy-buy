@@ -9,14 +9,16 @@ import java.util.Date;
 public class ProductListItem {
 
     private String mId;
+    private String mBarcode;
     private String mName;
     private float mPrice;
     private Date mDate;
     private boolean mBox;
     private int mImg;
 
-    public ProductListItem(String id, String name, float price, Date date, int img) {
+    public ProductListItem(String id, String barcode, String name, float price, Date date, int img) {
         this.setId(id);
+        this.setBarcode(barcode);
         this.setName(name);
         this.setPrice(price);
         this.setDate(date);
@@ -32,6 +34,13 @@ public class ProductListItem {
         mId = id;
     }
 
+    public String getBarcode() {
+        return mBarcode;
+    }
+
+    public void setBarcode(String barcode) {
+        this.mBarcode = barcode;
+    }
     public String getName() {
         return mName;
     }

@@ -76,6 +76,7 @@ public class ProductItemAdapter extends BaseAdapter implements Filterable {
 
         ((TextView) view.findViewById(R.id.text_row_product)).setText(p.getName());
         ((TextView) view.findViewById(R.id.text_row_price)).setText("$" + Float.toString(p.getPrice()));
+        ((TextView) view.findViewById(R.id.text_row_barcode)).setText(p.getBarcode());
         ((TextView) view.findViewById(R.id.text_row_date)).setText(sdf.format(date));
         ((ImageView) view.findViewById(R.id.image_row_product)).setImageResource(p.getImg());
 
@@ -127,6 +128,7 @@ public class ProductItemAdapter extends BaseAdapter implements Filterable {
                     if((mStringFilterList.get(i).getName().toUpperCase()).contains(constraint.toString().toUpperCase())) {
                         ProductListItem products = new ProductListItem(
                                 mStringFilterList.get(i).getId(),
+                                mStringFilterList.get(i).getBarcode(),
                                 mStringFilterList.get(i).getName(),
                                 mStringFilterList.get(i).getPrice(),
                                 mStringFilterList.get(i).getDate(),
