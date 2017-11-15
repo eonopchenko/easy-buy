@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (data != null) {
                     Barcode barcode = data.getParcelableExtra(BarcodeCaptureActivity.BarcodeObject);
 
+                    item.setId("");
                     item.setBarcode(barcode.displayValue);
                     item.setLat(mLastKnownLocation.getLatitude());
                     item.setLng(mLastKnownLocation.getLongitude());
@@ -77,6 +78,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (data != null) {
                     String text = data.getStringExtra(OcrCaptureActivity.TextBlockObject);
                     item.setName(text);
+<<<<<<< HEAD
 
                     Intent intent = new Intent(this, OcrCaptureActivity.class);
                     intent.putExtra(OcrCaptureActivity.AutoFocus, true);
@@ -95,6 +97,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (data != null) {
                     String price = data.getStringExtra(OcrCaptureActivity.TextBlockObject);
                     item.setPrice(Float.parseFloat(price));
+=======
+>>>>>>> 31539be8af47f4d246ac98af38020be9cea9a924
 
                     // Insert the new item
                     AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>(){
@@ -150,10 +154,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         if (task.isSuccessful() && (task.getResult() != null)) {
                             // Set the map's camera position to the current location of the device.
                             mLastKnownLocation = task.getResult();
-                            LatLng latLng = new LatLng(mLastKnownLocation.getLatitude(),mLastKnownLocation.getLongitude());
-                            System.out.println("Coordinates: (" + latLng.latitude + ", " + latLng.longitude + ")");
+                            createAndShowDialog("Current location defined: " + mLastKnownLocation.getLatitude() + ", " + mLastKnownLocation.getLongitude(), "Error");
                         } else {
-                            System.out.println("Coordinates: (" + "undefined" + ")");
+                            createAndShowDialog("Current location not defined", "Error");
                         }
                     }
                 });
