@@ -16,13 +16,13 @@ public class ProductListItem {
     private boolean mBox;
     private int mImg;
 
-    public ProductListItem(String id, String barcode, String name, float price, Date date, int img) {
+    public ProductListItem(String id, String barcode, String name, float price, Date date, boolean box, int img) {
         this.setId(id);
         this.setBarcode(barcode);
         this.setName(name);
         this.setPrice(price);
         this.setDate(date);
-        this.setBox(true);
+        this.setBox(box);
         this.setImg(img);
     }
 
@@ -57,6 +57,14 @@ public class ProductListItem {
         this.mPrice = price;
     }
 
+    public Date getDate() {
+        return mDate;
+    }
+
+    public void setDate(Date date) {
+        this.mDate = date;
+    }
+
     public boolean isBox() {
         return mBox;
     }
@@ -71,13 +79,5 @@ public class ProductListItem {
 
     public void setImg(int img) {
         this.mImg = img;
-    }
-
-    public Date getDate() {
-        return mDate;
-    }
-
-    public void setDate(Date date) {
-        this.mDate = date;
     }
 }
