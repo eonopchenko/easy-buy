@@ -42,7 +42,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Product
     private GoogleMap mGoogleMap;
     private MapView mMapView;
     private View mView;
-    List<ProductItem> mProductList;
+    private List<ProductItem> mProductList;
+    private ProductItemAdapter mAdapter;
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -125,11 +126,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Product
             filter.add(new ProductListItem(id, barcode, name, price, date, R.mipmap.cart_icon));
         }
 
-        final ProductItemAdapter adapter = new ProductItemAdapter(getActivity(), (ArrayList<ProductListItem>) filter);
-        adapter.setOnProductFilterListener(this);
-        adapter.setOnProductClickListener(this);
+        mAdapter = new ProductItemAdapter(getActivity(), (ArrayList<ProductListItem>) filter);
+        mAdapter.setOnProductFilterListener(this);
+        mAdapter.setOnProductClickListener(this);
         ListView lvProducts = (ListView) mView.findViewById(R.id.list_products);
-        lvProducts.setAdapter(adapter);
+        lvProducts.setAdapter(mAdapter);
 
         EditText editFilter = (EditText) mView.findViewById(R.id.edit_filter);
         editFilter.addTextChangedListener(new TextWatcher() {
@@ -140,7 +141,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Product
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                adapter.getFilter().filter(s);
+                mAdapter.getFilter().filter(s);
             }
 
             @Override
@@ -166,8 +167,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Product
 
     @Override
     public void onProductClick(int position) {
-        Marker marker = mProductList.get(position).getMarker();
-        marker.showInfoWindow();
-        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), 15));
+        String id = ((ProductListItem)mAdapter.getItem(position)).getId();
+        for(ProductItem item : mProductList) {
+            if(item.getId() == id) {
+                Marker marker = item.getMarker();
+                marker.showInfoWindow();
+                mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), 15));
+                break;
+            }
+        }
     }
 }
