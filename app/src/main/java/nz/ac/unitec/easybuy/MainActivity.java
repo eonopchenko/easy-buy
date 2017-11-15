@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final int RC_OCR_CAPTURE = 9003;
     private ProductItemClient mProductItemClient;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
+    final ProductItem item = new ProductItem();
 
     private boolean mLocationPermissionGranted;
 
@@ -49,7 +50,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        final ProductItem item = new ProductItem();
         if (requestCode == RC_BARCODE_CAPTURE) {
             if (resultCode == CommonStatusCodes.SUCCESS) {
                 if (data != null) {
@@ -59,6 +59,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     item.setPrice(11.11f);
                     item.setLat(mLastKnownLocation.getLatitude());
                     item.setLng(mLastKnownLocation.getLongitude());
+
+                    System.out.println(barcode.displayValue);
+
+                    Intent intent = new Intent(this, OcrCaptureActivity.class);
+                    intent.putExtra(OcrCaptureActivity.AutoFocus, true);
+                    intent.putExtra(OcrCaptureActivity.UseFlash, false);
+
+                    startActivityForResult(intent, RC_OCR_CAPTURE);
 
                 } else {
                     createAndShowDialog("No barcode captured", "Error");
@@ -217,14 +225,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             intent.putExtra(BarcodeCaptureActivity.UseFlash, false);
 
             startActivityForResult(intent, RC_BARCODE_CAPTURE);
-        }
-        if (v.getId() == R.id.button_text) {
-            // launch Ocr capture activity.
-            Intent intent = new Intent(this, OcrCaptureActivity.class);
-            intent.putExtra(OcrCaptureActivity.AutoFocus, true);
-            intent.putExtra(OcrCaptureActivity.UseFlash, false);
-
-            startActivityForResult(intent, RC_OCR_CAPTURE);
         }
     }
 }
