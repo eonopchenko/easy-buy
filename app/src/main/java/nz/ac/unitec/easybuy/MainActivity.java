@@ -78,7 +78,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (data != null) {
                     String text = data.getStringExtra(OcrCaptureActivity.TextBlockObject);
                     item.setName(text);
-<<<<<<< HEAD
 
                     Intent intent = new Intent(this, OcrCaptureActivity.class);
                     intent.putExtra(OcrCaptureActivity.AutoFocus, true);
@@ -97,8 +96,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (data != null) {
                     String price = data.getStringExtra(OcrCaptureActivity.TextBlockObject);
                     item.setPrice(Float.parseFloat(price));
-=======
->>>>>>> 31539be8af47f4d246ac98af38020be9cea9a924
 
                     // Insert the new item
                     AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>(){
