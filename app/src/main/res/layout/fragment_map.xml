@@ -68,8 +68,6 @@
             android:id="@+id/layout_products"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:layout_editor_absoluteY="81dp"
-            tools:layout_editor_absoluteX="0dp"
             android:background="@color/colorLightgraySVG"
             android:orientation="vertical"
             android:clickable="true"
@@ -107,8 +105,8 @@
                     android:layout_marginStart="5dp"
                     android:layout_marginRight="5dp"
                     android:layout_marginEnd="5dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
                     android:text=""
                     android:cursorVisible="false" />
 

@@ -121,7 +121,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Product
             CameraPosition camPos = CameraPosition.builder().target(new LatLng(lat, lng)).zoom(16).bearing(0).tilt(45).build();
             mGoogleMap.moveCamera(CameraUpdateFactory.newCameraPosition(camPos));
 
-            filter.add(new ProductListItem(id, name, price, date, R.mipmap.ic_launcher));
+            filter.add(new ProductListItem(id, name, price, date, R.mipmap.cart_icon));
         }
 
         final ProductItemAdapter adapter = new ProductItemAdapter(getActivity(), (ArrayList<ProductListItem>) filter);

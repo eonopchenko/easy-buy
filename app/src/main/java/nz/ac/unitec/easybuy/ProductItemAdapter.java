@@ -29,10 +29,12 @@ public class ProductItemAdapter extends BaseAdapter implements Filterable {
     private List<ProductFilterListener> filterListeners = new ArrayList<ProductFilterListener> ();
     private List<ProductClickListener> clickListeners = new ArrayList<ProductClickListener> ();
     private ValueFilter mValueFilter;
+    private ArrayList<ProductListItem> mStringFilterList;
 
     public ProductItemAdapter(Context context, ArrayList<ProductListItem> products) {
         mContext = context;
         mProducts = products;
+        mStringFilterList = products;
         mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -118,11 +120,33 @@ public class ProductItemAdapter extends BaseAdapter implements Filterable {
 
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-            return null;
+            FilterResults results = new FilterResults();
+            if((constraint != null) && (constraint.length() > 0)) {
+                ArrayList<ProductListItem> filterList = new ArrayList<ProductListItem>();
+                for(int i = 0; i < mStringFilterList.size(); i++) {
+                    if((mStringFilterList.get(i).getName().toUpperCase()).contains(constraint.toString().toUpperCase())) {
+                        ProductListItem products = new ProductListItem(
+                                mStringFilterList.get(i).getId(),
+                                mStringFilterList.get(i).getName(),
+                                mStringFilterList.get(i).getPrice(),
+                                mStringFilterList.get(i).getDate(),
+                                R.mipmap.cart_icon);
+                        filterList.add(products);
+                    }
+                }
+                results.count = filterList.size();
+                results.values = filterList;
+            } else {
+                results.count = mStringFilterList.size();
+                results.values = mStringFilterList;
+            }
+            return results;
         }
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
+            mProducts = (ArrayList<ProductListItem>) results.values;
+            notifyDataSetChanged();
         }
     }
 }
