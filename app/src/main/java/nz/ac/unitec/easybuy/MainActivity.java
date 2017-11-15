@@ -49,17 +49,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        final ProductItem item = new ProductItem();
         if (requestCode == RC_BARCODE_CAPTURE) {
             if (resultCode == CommonStatusCodes.SUCCESS) {
                 if (data != null) {
                     Barcode barcode = data.getParcelableExtra(BarcodeCaptureActivity.BarcodeObject);
 
-                    final ProductItem item = new ProductItem();
                     item.setBarcode(barcode.displayValue);
-                    item.setName("some product");
                     item.setPrice(11.11f);
                     item.setLat(mLastKnownLocation.getLatitude());
                     item.setLng(mLastKnownLocation.getLongitude());
+
+                } else {
+                    createAndShowDialog("No barcode captured", "Error");
+                }
+            } else {
+            }
+        }
+        else if(requestCode == RC_OCR_CAPTURE) {
+            if (resultCode == CommonStatusCodes.SUCCESS) {
+                if (data != null) {
+                    String text = data.getStringExtra(OcrCaptureActivity.TextBlockObject);
+                    item.setName(text);
+                    System.out.println("Text read: " + text);
 
                     // Insert the new item
                     AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>(){
@@ -87,17 +99,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     };
 
                     runAsyncTask(task);
-                } else {
-                    createAndShowDialog("No barcode captured", "Error");
-                }
-            } else {
-            }
-        }
-        else if(requestCode == RC_OCR_CAPTURE) {
-            if (resultCode == CommonStatusCodes.SUCCESS) {
-                if (data != null) {
-                    String text = data.getStringExtra(OcrCaptureActivity.TextBlockObject);
-                    System.out.println("Text read: " + text);
                 } else {
                     System.out.println("No Text captured, intent data is null");
                 }
