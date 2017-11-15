@@ -21,10 +21,10 @@ public class ProductItem {
     private float mPrice;
 
     @com.google.gson.annotations.SerializedName("lat")
-    private float mLat;
+    private double mLat;
 
     @com.google.gson.annotations.SerializedName("lng")
-    private float mLng;
+    private double mLng;
 
     private Marker mMarker;
 
@@ -60,19 +60,19 @@ public class ProductItem {
         this.mPrice = price;
     }
 
-    public float getLat() {
+    public double getLat() {
         return mLat;
     }
 
-    public void setLat(float lat) {
+    public void setLat(double lat) {
         this.mLat = lat;
     }
 
-    public float getLng() {
+    public double getLng() {
         return mLng;
     }
 
-    public void setLng(float lng) {
+    public void setLng(double lng) {
         this.mLng = lng;
     }
 
