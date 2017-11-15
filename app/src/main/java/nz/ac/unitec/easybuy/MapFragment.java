@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.Switch;
@@ -21,6 +22,7 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
@@ -30,7 +32,7 @@ import java.util.List;
  * Created by eugene on 1/11/2017.
  */
 
-public class MapFragment extends Fragment implements OnMapReadyCallback, ProductItemAvailableListener, ProductFilterListener {
+public class MapFragment extends Fragment implements OnMapReadyCallback, ProductItemAvailableListener, ProductFilterListener, ProductClickListener {
 
     private static final int ACTIVITY_START_CAMERA_APP = 0;
     private GoogleMap mGoogleMap;
@@ -119,6 +121,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Product
 
         ProductItemAdapter adapter = new ProductItemAdapter(getActivity(), (ArrayList<ProductListItem>) filter);
         adapter.setOnProductFilterListener(this);
+        adapter.setOnProductClickListener(this);
         ListView lvProducts = (ListView) mView.findViewById(R.id.list_products);
         lvProducts.setAdapter(adapter);
 
@@ -135,5 +138,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Product
                 }
             }
         }
+    }
+
+    @Override
+    public void onProductClick(int position) {
+        Marker marker = mProductList.get(position).getMarker();
+        marker.showInfoWindow();
+        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), 15));
     }
 }

@@ -23,6 +23,7 @@ public class ProductItemAdapter extends BaseAdapter {
     private LayoutInflater mInflater;
     private ArrayList<ProductListItem> mProducts;
     private List<ProductFilterListener> filterListeners = new ArrayList<ProductFilterListener> ();
+    private List<ProductClickListener> clickListeners = new ArrayList<ProductClickListener> ();
 
     public ProductItemAdapter(Context context, ArrayList<ProductListItem> products) {
         mContext = context;
@@ -30,9 +31,12 @@ public class ProductItemAdapter extends BaseAdapter {
         mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
-    public void setOnProductFilterListener (ProductFilterListener listener)
-    {
+    public void setOnProductFilterListener (ProductFilterListener listener) {
         this.filterListeners.add(listener);
+    }
+
+    public void setOnProductClickListener (ProductClickListener listener) {
+        this.clickListeners.add(listener);
     }
 
     @Override
@@ -51,7 +55,7 @@ public class ProductItemAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
         View view = convertView;
         if (view == null) {
@@ -76,6 +80,15 @@ public class ProductItemAdapter extends BaseAdapter {
         });
         cbProduct.setTag(position);
         cbProduct.setChecked(p.isBox());
+
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                for(ProductClickListener listener : clickListeners) {
+                    listener.onProductClick(position);
+                }
+            }
+        });
 
         return view;
     }

@@ -14,7 +14,7 @@
         sothree:umanoShadowHeight="4dp"
         sothree:umanoAnchorPoint="0.36"
         android:soundEffectsEnabled="true"
-        sothree:umanoOverlay="true"
+        sothree:umanoOverlay="false"
         sothree:umanoFadeColor="@android:color/transparent">
 
         <android.support.constraint.ConstraintLayout

@@ -4,37 +4,30 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:background="@color/colorLightgraySVG">
+
     <CheckBox
         android:id="@+id/check_row_product"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
     </CheckBox>
-    <LinearLayout
-        android:id="@+id/layout_row_product"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_marginStart="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_weight="1"
-        android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/text_row_product"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text=""
-            android:textSize="16sp"
-            android:layout_weight="1"></TextView>
+    <TextView
+        android:id="@+id/text_row_product"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text=""
+        android:textSize="16sp"
+        android:layout_weight="1"></TextView>
 
-        <TextView
-            android:id="@+id/text_row_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text=""
-            android:textSize="16sp"></TextView>
-    </LinearLayout>
+    <TextView
+        android:id="@+id/text_row_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text=""
+        android:textSize="16sp"></TextView>
+
     <ImageView
         android:id="@+id/image_row_product"
         android:layout_width="wrap_content"
