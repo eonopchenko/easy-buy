@@ -55,12 +55,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (data != null) {
                     Barcode barcode = data.getParcelableExtra(BarcodeCaptureActivity.BarcodeObject);
 
+                    item.setId("");
                     item.setBarcode(barcode.displayValue);
                     item.setPrice(11.11f);
                     item.setLat(mLastKnownLocation.getLatitude());
                     item.setLng(mLastKnownLocation.getLongitude());
-
-                    System.out.println(barcode.displayValue);
 
                     Intent intent = new Intent(this, OcrCaptureActivity.class);
                     intent.putExtra(OcrCaptureActivity.AutoFocus, true);
@@ -79,7 +78,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (data != null) {
                     String text = data.getStringExtra(OcrCaptureActivity.TextBlockObject);
                     item.setName(text);
-                    System.out.println("Text read: " + text);
 
                     // Insert the new item
                     AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>(){
@@ -135,10 +133,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         if (task.isSuccessful() && (task.getResult() != null)) {
                             // Set the map's camera position to the current location of the device.
                             mLastKnownLocation = task.getResult();
-                            LatLng latLng = new LatLng(mLastKnownLocation.getLatitude(),mLastKnownLocation.getLongitude());
-                            System.out.println("Coordinates: (" + latLng.latitude + ", " + latLng.longitude + ")");
+                            createAndShowDialog("Current location defined: " + mLastKnownLocation.getLatitude() + ", " + mLastKnownLocation.getLongitude(), "Error");
                         } else {
-                            System.out.println("Coordinates: (" + "undefined" + ")");
+                            createAndShowDialog("Current location not defined", "Error");
                         }
                     }
                 });
@@ -198,7 +195,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mProductItemClient.setOnProductItemListener((ProductItemAvailableListener)frMap);
 
         findViewById(R.id.button_camera).setOnClickListener(this);
-        findViewById(R.id.button_text).setOnClickListener(this);
 
         // Construct a GeoDataClient.
         mGeoDataClient = Places.getGeoDataClient(this, null);
