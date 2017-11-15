@@ -1,5 +1,7 @@
 package nz.ac.unitec.easybuy;
 
+import java.util.Date;
+
 /**
  * Created by eugene on 14/11/2017.
  */
@@ -9,13 +11,15 @@ public class ProductListItem {
     private String mId;
     private String mName;
     private float mPrice;
+    private Date mDate;
     private boolean mBox;
     private int mImg;
 
-    public ProductListItem(String id, String name, float price, int img) {
+    public ProductListItem(String id, String name, float price, Date date, int img) {
         this.setId(id);
         this.setName(name);
         this.setPrice(price);
+        this.setDate(date);
         this.setBox(true);
         this.setImg(img);
     }
@@ -58,5 +62,13 @@ public class ProductListItem {
 
     public void setImg(int img) {
         this.mImg = img;
+    }
+
+    public Date getDate() {
+        return mDate;
+    }
+
+    public void setDate(Date date) {
+        this.mDate = date;
     }
 }

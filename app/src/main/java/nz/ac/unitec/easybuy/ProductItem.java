@@ -2,6 +2,8 @@ package nz.ac.unitec.easybuy;
 
 import com.google.android.gms.maps.model.Marker;
 
+import java.util.Date;
+
 /**
  * Created by eugene on 14/11/2017.
  */
@@ -25,6 +27,9 @@ public class ProductItem {
 
     @com.google.gson.annotations.SerializedName("lng")
     private double mLng;
+
+    @com.google.gson.annotations.SerializedName("updatedAt")
+    private Date mDate;
 
     private Marker mMarker;
 
@@ -82,5 +87,13 @@ public class ProductItem {
 
     public void setMarker(Marker marker) {
         mMarker = marker;
+    }
+
+    public java.util.Date getDate() {
+        return mDate;
+    }
+
+    public void setDate(java.util.Date date) {
+        this.mDate = date;
     }
 }

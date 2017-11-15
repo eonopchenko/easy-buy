@@ -7,11 +7,14 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.annotation.Nullable;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Switch;
 
@@ -26,6 +29,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -109,6 +113,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Product
             String id = product.getId();
             String name = product.getName();
             float price = product.getPrice();
+            Date date = product.getDate();
             double lat = product.getLat();
             double lng = product.getLng();
 
@@ -116,14 +121,32 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Product
             CameraPosition camPos = CameraPosition.builder().target(new LatLng(lat, lng)).zoom(16).bearing(0).tilt(45).build();
             mGoogleMap.moveCamera(CameraUpdateFactory.newCameraPosition(camPos));
 
-            filter.add(new ProductListItem(id, name, price, R.mipmap.ic_launcher));
+            filter.add(new ProductListItem(id, name, price, date, R.mipmap.ic_launcher));
         }
 
-        ProductItemAdapter adapter = new ProductItemAdapter(getActivity(), (ArrayList<ProductListItem>) filter);
+        final ProductItemAdapter adapter = new ProductItemAdapter(getActivity(), (ArrayList<ProductListItem>) filter);
         adapter.setOnProductFilterListener(this);
         adapter.setOnProductClickListener(this);
         ListView lvProducts = (ListView) mView.findViewById(R.id.list_products);
         lvProducts.setAdapter(adapter);
+
+        EditText editFilter = (EditText) mView.findViewById(R.id.edit_filter);
+        editFilter.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                adapter.getFilter().filter(s);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         mView.findViewById(R.id.progress_bar).setVisibility(View.INVISIBLE);
     }

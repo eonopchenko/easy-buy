@@ -79,28 +79,50 @@
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:background="@color/colorDarkgraySVG"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:descendantFocusability="beforeDescendants"
+                android:focusableInTouchMode="true">
 
                 <TextView
-                    android:id="@+id/text_products"
+                    android:id="@+id/text_filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="top|bottom|left"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:text="@string/filter"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/edit_filter"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:gravity="center_vertical|start"
-                    android:paddingStart="10dp"
-                    android:paddingEnd="10dp"
-                    android:text="@string/products"
-                    android:textColor="@android:color/white"
-                    android:textSize="16sp" />
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:text=""
+                    android:cursorVisible="false" />
 
                 <Switch
                     android:id="@+id/switch_map_style"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:gravity="center_vertical|end"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:text="Hybrid Map"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:text="@string/hybrid"
                     android:textColor="@android:color/white"
                     android:textSize="16sp"
                     android:checked="true"/>
