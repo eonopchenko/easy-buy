@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -131,6 +132,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Product
         mAdapter.setOnProductClickListener(this);
         ListView lvProducts = (ListView) mView.findViewById(R.id.list_products);
         lvProducts.setAdapter(mAdapter);
+
+        CheckBox cbFilter = (CheckBox) mView.findViewById(R.id.check_filter);
+        cbFilter.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                mAdapter.CheckItems(isChecked);
+            }
+        });
 
         EditText editFilter = (EditText) mView.findViewById(R.id.edit_filter);
         editFilter.addTextChangedListener(new TextWatcher() {
