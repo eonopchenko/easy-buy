@@ -14,18 +14,17 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.GeoDataClient;
 import com.google.android.gms.location.places.PlaceDetectionClient;
-import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.location.places.Places;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.vision.barcode.Barcode;
-
-import com.google.android.gms.location.places.Places;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -68,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     startActivityForResult(intent, RC_OCR_PRODUCT_CAPTURE);
 
                 } else {
-                    createAndShowDialog("No barcode captured", "Error");
+                    Toast.makeText(MainActivity.this, "No barcode captured!", Toast.LENGTH_SHORT).show();
                 }
             } else {
             }
@@ -114,7 +113,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        createAndShowDialog(e.getMessage(), "Error");
+                                        final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                                        builder.setMessage(e.getMessage());
+                                        builder.setTitle("Error");
+                                        builder.create().show();
                                     }
                                 });
                             }
@@ -151,9 +153,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         if (task.isSuccessful() && (task.getResult() != null)) {
                             // Set the map's camera position to the current location of the device.
                             mLastKnownLocation = task.getResult();
-                            createAndShowDialog("Current location defined: " + mLastKnownLocation.getLatitude() + ", " + mLastKnownLocation.getLongitude(), "Error");
+                            Toast.makeText(MainActivity.this, "Current location updated", Toast.LENGTH_SHORT).show();
                         } else {
-                            createAndShowDialog("Current location not defined", "Error");
+                            Toast.makeText(MainActivity.this, "Current location not detected!", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -190,14 +192,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             return task.execute();
         }
-    }
-
-    private void createAndShowDialog(final String message, final String title) {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-        builder.setMessage(message);
-        builder.setTitle(title);
-        builder.create().show();
     }
 
     @Override
