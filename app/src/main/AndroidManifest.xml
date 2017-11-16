@@ -34,7 +34,7 @@
             android:label="Read Barcode"/>
 
         <activity android:name=".OcrCaptureActivity"
-                  android:label="Read Text" />
+                  android:label="Read Text"/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

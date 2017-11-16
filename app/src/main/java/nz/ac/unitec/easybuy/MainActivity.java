@@ -20,18 +20,18 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.GeoDataClient;
 import com.google.android.gms.location.places.PlaceDetectionClient;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.vision.barcode.Barcode;
 
 import com.google.android.gms.location.places.Places;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final int RC_BARCODE_CAPTURE = 9001;
-    private static final int RC_OCR_PRODUCT_CAPTURE = 9003;
-    private static final int RC_OCR_PRICE_CAPTURE = 9004;
+    private static final int RC_OCR_CAPTURE = 9003;
     private ProductItemClient mProductItemClient;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     final ProductItem item = new ProductItem();
@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     intent.putExtra(OcrCaptureActivity.AutoFocus, true);
                     intent.putExtra(OcrCaptureActivity.UseFlash, false);
 
-                    startActivityForResult(intent, RC_OCR_PRODUCT_CAPTURE);
+                    startActivityForResult(intent, RC_OCR_CAPTURE);
 
                 } else {
                     createAndShowDialog("No barcode captured", "Error");
@@ -73,29 +73,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } else {
             }
         }
-        else if(requestCode == RC_OCR_PRODUCT_CAPTURE) {
+        else if(requestCode == RC_OCR_CAPTURE) {
             if (resultCode == CommonStatusCodes.SUCCESS) {
                 if (data != null) {
-                    String text = data.getStringExtra(OcrCaptureActivity.TextBlockObject);
-                    item.setName(text);
-
-                    Intent intent = new Intent(this, OcrCaptureActivity.class);
-                    intent.putExtra(OcrCaptureActivity.AutoFocus, true);
-                    intent.putExtra(OcrCaptureActivity.UseFlash, false);
-
-                    startActivityForResult(intent, RC_OCR_PRICE_CAPTURE);
-
-                } else {
-                    System.out.println("No Text captured, intent data is null");
-                }
-            } else {
-            }
-        }
-        else if(requestCode == RC_OCR_PRICE_CAPTURE) {
-            if (resultCode == CommonStatusCodes.SUCCESS) {
-                if (data != null) {
-                    String price = data.getStringExtra(OcrCaptureActivity.TextBlockObject);
-                    item.setPrice(Float.parseFloat(price));
+                    ArrayList<String> text = data.getStringArrayListExtra("TextBlockObject");
+                    item.setName(text.get(0));
+                    item.setPrice(Float.parseFloat(text.get(1)));
 
                     // Insert the new item
                     AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>(){

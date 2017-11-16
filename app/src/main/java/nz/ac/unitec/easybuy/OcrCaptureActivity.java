@@ -49,6 +49,7 @@ import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Activity for the multi-tracker app.  This app detects text and displays the value with the
@@ -67,7 +68,7 @@ public final class OcrCaptureActivity extends AppCompatActivity {
     // Constants used to pass extra data in the intent
     public static final String AutoFocus = "AutoFocus";
     public static final String UseFlash = "UseFlash";
-    public static final String TextBlockObject = "String";
+    public static final ArrayList<String> TextBlockObject = new ArrayList<>();
 
     private CameraSource mCameraSource;
     private CameraSourcePreview mPreview;
@@ -326,10 +327,17 @@ public final class OcrCaptureActivity extends AppCompatActivity {
         if (graphic != null) {
             text = graphic.getTextBlock();
             if (text != null && text.getValue() != null) {
-                Intent data = new Intent();
-                data.putExtra(TextBlockObject, text.getValue());
-                setResult(CommonStatusCodes.SUCCESS, data);
-                finish();
+                if (TextBlockObject.size()==0){
+                    TextBlockObject.add(text.getValue());
+                }
+                else
+                {
+                    TextBlockObject.add(text.getValue());
+                    Intent data = new Intent();
+                    data.putStringArrayListExtra("TextBlockObject", TextBlockObject);
+                    setResult(CommonStatusCodes.SUCCESS, data);
+                    finish();
+                }
             }
             else {
                 System.out.println("text data is null");
