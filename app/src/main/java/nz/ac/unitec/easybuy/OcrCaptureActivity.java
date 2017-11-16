@@ -105,7 +105,7 @@ public final class OcrCaptureActivity extends AppCompatActivity {
         gestureDetector = new GestureDetector(this, new CaptureGestureListener());
         scaleGestureDetector = new ScaleGestureDetector(this, new ScaleListener());
 
-        Snackbar.make(mGraphicOverlay, "Tap to capture. Pinch/Stretch to zoom",
+        Snackbar.make(mGraphicOverlay, "First tap to capture name. Second tap to capture price. Pinch/Stretch to zoom",
                 Snackbar.LENGTH_LONG)
                 .show();
     }
@@ -329,14 +329,17 @@ public final class OcrCaptureActivity extends AppCompatActivity {
             if (text != null && text.getValue() != null) {
                 if (TextBlockObject.size()==0){
                     TextBlockObject.add(text.getValue());
+                    Toast.makeText(OcrCaptureActivity.this, "Name captured", Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
                     TextBlockObject.add(text.getValue());
+                    Toast.makeText(OcrCaptureActivity.this, "Price captured, product saved", Toast.LENGTH_SHORT).show();
                     Intent data = new Intent();
                     data.putStringArrayListExtra("TextBlockObject", TextBlockObject);
                     setResult(CommonStatusCodes.SUCCESS, data);
                     finish();
+                    TextBlockObject.clear();
                 }
             }
             else {

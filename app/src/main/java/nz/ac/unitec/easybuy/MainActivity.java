@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     runAsyncTask(task);
                 } else {
-                    System.out.println("No Text captured, intent data is null");
+                    Toast.makeText(MainActivity.this, "No Text captured!", Toast.LENGTH_SHORT).show();
                 }
             } else {
             }
