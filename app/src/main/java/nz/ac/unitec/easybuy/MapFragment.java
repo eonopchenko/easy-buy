@@ -12,7 +12,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -42,7 +42,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Product
     private GoogleMap mGoogleMap;
     private MapView mMapView;
     private View mView;
-    List<ProductItem> mProductList;
+    private List<ProductItem> mProductList;
+    private ProductItemAdapter mAdapter;
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -118,18 +119,26 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Product
             double lat = product.getLat();
             double lng = product.getLng();
 
-            product.setMarker(mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(lat, lng)).title(name).snippet(lat + ", " + lng)));
+            product.setMarker(mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(lat, lng)).title(name).snippet("$" + Float.toString(price))));
             CameraPosition camPos = CameraPosition.builder().target(new LatLng(lat, lng)).zoom(16).bearing(0).tilt(45).build();
             mGoogleMap.moveCamera(CameraUpdateFactory.newCameraPosition(camPos));
 
-            filter.add(new ProductListItem(id, barcode, name, price, date, R.mipmap.cart_icon));
+            filter.add(new ProductListItem(id, barcode, name, price, date, true, R.mipmap.cart_icon));
         }
 
-        final ProductItemAdapter adapter = new ProductItemAdapter(getActivity(), (ArrayList<ProductListItem>) filter);
-        adapter.setOnProductFilterListener(this);
-        adapter.setOnProductClickListener(this);
+        mAdapter = new ProductItemAdapter(getActivity(), (ArrayList<ProductListItem>) filter);
+        mAdapter.setOnProductFilterListener(this);
+        mAdapter.setOnProductClickListener(this);
         ListView lvProducts = (ListView) mView.findViewById(R.id.list_products);
-        lvProducts.setAdapter(adapter);
+        lvProducts.setAdapter(mAdapter);
+
+        CheckBox cbFilter = (CheckBox) mView.findViewById(R.id.check_filter);
+        cbFilter.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                mAdapter.CheckItems(isChecked);
+            }
+        });
 
         EditText editFilter = (EditText) mView.findViewById(R.id.edit_filter);
         editFilter.addTextChangedListener(new TextWatcher() {
@@ -140,7 +149,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Product
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                adapter.getFilter().filter(s);
+                mAdapter.getFilter().filter(s);
             }
 
             @Override
@@ -166,8 +175,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Product
 
     @Override
     public void onProductClick(int position) {
-        Marker marker = mProductList.get(position).getMarker();
-        marker.showInfoWindow();
-        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), 15));
+        String id = ((ProductListItem)mAdapter.getItem(position)).getId();
+        for(ProductItem item : mProductList) {
+            if(item.getId() == id) {
+                Marker marker = item.getMarker();
+                marker.showInfoWindow();
+                mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), 15));
+                break;
+            }
+        }
     }
 }

@@ -46,6 +46,18 @@ public class ProductItemAdapter extends BaseAdapter implements Filterable {
         this.clickListeners.add(listener);
     }
 
+    public void CheckItems(boolean checked) {
+        for(ProductListItem item : mProducts) {
+            item.setBox(checked);
+        }
+
+        for(ProductFilterListener listener : filterListeners) {
+            listener.onProductFilter(mProducts);
+        }
+
+        getFilter().filter("");
+    }
+
     @Override
     public int getCount() {
         return mProducts.size();
@@ -132,6 +144,7 @@ public class ProductItemAdapter extends BaseAdapter implements Filterable {
                                 mStringFilterList.get(i).getName(),
                                 mStringFilterList.get(i).getPrice(),
                                 mStringFilterList.get(i).getDate(),
+                                mStringFilterList.get(i).isBox(),
                                 R.mipmap.cart_icon);
                         filterList.add(products);
                     }
