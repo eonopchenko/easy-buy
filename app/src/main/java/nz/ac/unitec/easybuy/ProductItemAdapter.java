@@ -47,15 +47,17 @@ public class ProductItemAdapter extends BaseAdapter implements Filterable {
     }
 
     public void CheckItems(boolean checked) {
+        for(ProductListItem item : mStringFilterList) {
+            item.setBox(checked);
+        }
         for(ProductListItem item : mProducts) {
             item.setBox(checked);
         }
-
         for(ProductFilterListener listener : filterListeners) {
-            listener.onProductFilter(mProducts);
+            listener.onProductFilter(mStringFilterList);
         }
 
-        getFilter().filter("");
+        getFilter().filter(((ValueFilter)getFilter()).getConstraint());
     }
 
     @Override
@@ -131,13 +133,20 @@ public class ProductItemAdapter extends BaseAdapter implements Filterable {
 
     class ValueFilter extends Filter {
 
+        public CharSequence getConstraint() {
+            return mConstraint;
+        }
+
+        private CharSequence mConstraint;
+
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
+            mConstraint = constraint;
             FilterResults results = new FilterResults();
-            if((constraint != null) && (constraint.length() > 0)) {
+            if((mConstraint != null) && (mConstraint.length() > 0)) {
                 ArrayList<ProductListItem> filterList = new ArrayList<ProductListItem>();
                 for(int i = 0; i < mStringFilterList.size(); i++) {
-                    if((mStringFilterList.get(i).getName().toUpperCase()).contains(constraint.toString().toUpperCase())) {
+                    if((mStringFilterList.get(i).getName().toUpperCase()).contains(mConstraint.toString().toUpperCase())) {
                         ProductListItem products = new ProductListItem(
                                 mStringFilterList.get(i).getId(),
                                 mStringFilterList.get(i).getBarcode(),

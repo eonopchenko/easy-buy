@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (data != null) {
                     ArrayList<String> text = data.getStringArrayListExtra("TextBlockObject");
                     item.setName(text.get(0));
-                    item.setPrice(Float.parseFloat(text.get(1)));
+                    item.setPrice(Float.parseFloat(text.get(1).replaceAll("[^\\d.]", "")));
 
                     // Insert the new item
                     AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>(){
