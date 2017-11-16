@@ -28,7 +28,9 @@ import com.google.android.gms.vision.barcode.Barcode;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+import static android.content.pm.PackageManager.PERMISSION_GRANTED;
+
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, ActivityCompat.OnRequestPermissionsResultCallback {
 
     private static final int RC_BARCODE_CAPTURE = 9001;
     private static final int RC_OCR_CAPTURE = 9003;
@@ -129,21 +131,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
          * cases when a location is not available.
          */
         try {
-            if (mLocationPermissionGranted) {
-                Task<Location> locationResult = mFusedLocationProviderClient.getLastLocation();
-                locationResult.addOnCompleteListener(this, new OnCompleteListener<Location>() {
+            Task<Location> locationResult = mFusedLocationProviderClient.getLastLocation();
+            locationResult.addOnCompleteListener(this, new OnCompleteListener<Location>() {
                     @Override
                     public void onComplete(@NonNull Task<Location> task) {
-                        if (task.isSuccessful() && (task.getResult() != null)) {
-                            // Set the map's camera position to the current location of the device.
-                            mLastKnownLocation = task.getResult();
-                            Toast.makeText(MainActivity.this, "Current location updated", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(MainActivity.this, "Current location not detected!", Toast.LENGTH_SHORT).show();
-                        }
+                    if (task.isSuccessful() && (task.getResult() != null)) {
+                        // Set the map's camera position to the current location of the device.
+                        mLastKnownLocation = task.getResult();
+                        Toast.makeText(MainActivity.this, "Current location updated", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(MainActivity.this, "Current location not detected!", Toast.LENGTH_SHORT).show();
                     }
+                }
                 });
-            }
         } catch (SecurityException e)  {
             Log.e("Exception: %s", e.getMessage());
         }
@@ -161,7 +161,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
          */
         if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
                 android.Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
+                == PERMISSION_GRANTED) {
             mLocationPermissionGranted = true;
         } else {
             ActivityCompat.requestPermissions(this,
@@ -201,22 +201,43 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Construct a FusedLocationProviderClient.
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
+        mLocationPermissionGranted = false;
+
         // Prompt the user for permission.
         getLocationPermission();
 
         // Get the current location of the device and set the position of the map.
-        getDeviceLocation();
+        // (immediately if permissions already granted, or wait for permission request callback)
+        if (mLocationPermissionGranted) {
+            getDeviceLocation();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if(requestCode == PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION) {
+            if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                mLocationPermissionGranted = true;
+                getDeviceLocation();
+            }
+        }
     }
 
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.button_camera) {
-            // launch barcode activity.
-            Intent intent = new Intent(this, BarcodeCaptureActivity.class);
-            intent.putExtra(BarcodeCaptureActivity.AutoFocus, true);
-            intent.putExtra(BarcodeCaptureActivity.UseFlash, false);
+            if(mLocationPermissionGranted) {
+                // launch barcode activity.
+                Intent intent = new Intent(this, BarcodeCaptureActivity.class);
+                intent.putExtra(BarcodeCaptureActivity.AutoFocus, true);
+                intent.putExtra(BarcodeCaptureActivity.UseFlash, false);
 
-            startActivityForResult(intent, RC_BARCODE_CAPTURE);
+                startActivityForResult(intent, RC_BARCODE_CAPTURE);
+            } else {
+                Toast.makeText(MainActivity.this, "App requires device location permissions!", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }
